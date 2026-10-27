@@ -1,18 +1,18 @@
 # Cloud coding agents (optional pattern)
 
-Use when a hosted coding agent should implement a whole NOW slice with minimal real-time management. The owner is involved only at the end: one PR, pulled and tested locally, then merged.
+Use when a hosted coding agent should implement a whole slice (the NOW slice, or a slice card in parallel mode) with minimal real-time management. The owner is involved only at the end: one PR, pulled and tested locally, then merged.
 
 ## Roles
 
 - **Owner** — merges, does the final local test, and approves anything hard to undo.
-- **Coordinator** (docs owner or architect agent) — writes the brief, answers the agent's questions, reviews the PR, marks it ready, and closes out the docs after merge.
+- **Coordinator** (the Architect, the docs-owner agent) — writes the brief, adds the board line, answers the agent's questions, reviews the PR, marks it ready, and closes out the docs after merge.
 - **Cloud agent** — implements on a branch and opens one PR.
 
 ## Defaults
 
-- Work on a **branch + PR** only. Never merge; never push to the default branch.
+- Work on **`feature/<slice id>` + PR** only. Never merge; never push to the default branch.
 - **Mocked / synthetic data only** in the brief and in commits. No secrets or real account data.
-- Do **not** edit NOW, BACKLOG, DECISIONS, phase docs, `AGENTS.md`, or `.cursor/` unless the brief lists them. The coordinator applies workflow close-out after merge.
+- Do **not** edit NOW, BACKLOG, DECISIONS, phase docs, `AGENTS.md`, or `.cursor/` unless the brief lists them. Parallel mode: at launch the coordinator adds the slice's Active board line with the agent's `bc-…` id as owner; the agent does not edit the board. The coordinator applies workflow close-out (`/agent-flow close`).
 - **One full PR per slice.** Aim to meet every Done-when item in one PR so the owner tests once.
 - **Blockers:** the coordinator answers questions. A soft blocker becomes a follow-up listed in the PR body and moves to the next slice. Stop only for a major blocker that would be very hard to undo.
 - **Budget (soft):** a project-chosen tool-call budget per run (example default **500**). Put it in the brief and require an honest count in the PR body. Near the soft cap, finish if Done-when is nearly met; otherwise stop and update the PR with what is done.
@@ -27,7 +27,7 @@ Use when a hosted coding agent should implement a whole NOW slice with minimal r
 - Goal in user-visible terms, and links to the source-of-truth docs (NOW, phase, ADR)
 - Architecture constraints the agent must keep
 - Allowed paths and forbidden paths
-- Done-when items copied from NOW
+- Done-when items copied from NOW (sequential), or the slice card path (parallel): the card **is** the brief's scope, facts and Done when; reference it, don't copy it
 - Test commands to run
 - Soft and hard tool-call budgets, plus the stop rules above
 - The context-economy rule, pasted verbatim
@@ -36,9 +36,9 @@ Use when a hosted coding agent should implement a whole NOW slice with minimal r
 
 ## After merge
 
-1. Coordinator updates NOW, phase, and ADR checklists, and lists the soft follow-ups under Last closed.
+1. Coordinator runs `/agent-flow close` in the slice PR as it merges: tick NOW or the card, phase Closed-log (or DECISIONS) line with the PR link, soft follow-ups → BACKLOG, release NOW or the board line (delete the card).
 2. Owner runs any local spot-checks the brief left unchecked.
-3. Close the slice when Done-when is complete.
+3. The slice is closed when Done-when is complete; then offer `/agent-flow plan`.
 4. Coordinator appends one rollup line to a local usage log (below).
 
 ## Usage rollup (local, not in git)

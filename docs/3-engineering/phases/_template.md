@@ -7,6 +7,10 @@
 
 ## Slices
 
+| Slice | Scope | Parallel-safe |
+|---|---|---|
+| N.A | … | yes / no (why: migration, after N.B) |
+
 ## Done when
 
 ## Out of scope

@@ -12,7 +12,7 @@ The domain drives the system, and the system drives the code. This register list
 1. Confirm or adjust the domain rule.
 2. Update the domain doc.
 3. Update the system feature to match.
-4. File an engineering ask in [3-engineering/architect/asks.md](../3-engineering/architect/asks.md) for the code change.
+4. Add a [BACKLOG](../3-engineering/process/BACKLOG.md) row (or a slice) for the code change.
 5. Close the entry when domain, system, and code agree.
 
 **Statuses:** Open, Domain confirmed, Domain adjusted, Trickled down, Closed.
